@@ -320,10 +320,10 @@ void drawWeatherSingleIcon() {
       
           if (OWOC.current)
           {
-            drawWeatherIcon(OWOC.current->icon,80,12);
+            drawWeatherIcon(OWOC.current->icon,80,10);
             makeClock(OWOC.current->dayTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-            overwriteLcdText(104, 22, 50, 8, ILI9341_LIGHTGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s", zeitHoMi);
-            overwriteLcdText(100, 91, 68, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.1f\n", OWOC.current->temperature);
+            overwriteLcdText(104, 18, 50, 8, ILI9341_LIGHTGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s", zeitHoMi);
+            overwriteLcdText(101, 91, 68, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.1f\n", OWOC.current->temperature);
             tft.drawRGBBitmap(137, 82, celsius,11,9);
           }
         }

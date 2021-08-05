@@ -130,22 +130,22 @@ void loop() {
             overwriteLcdText(100, 269, 45, 11, ILI9341_DARKGREY, ILI9341_YELLOW, FontMonospaced_bold_13,"%5d",readRebootCounter());
             overwriteLcdText(100, 280, 45, 11, ILI9341_DARKGREY, ILI9341_YELLOW, FontMonospaced_bold_13,"%5d",mbDebugCounter);
           #endif   
-          overwriteLcdText(15, 91, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",solarPower);
-          overwriteLcdText(150, 91, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",gridPower);
-          overwriteLcdText(15, 280, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",batPower);
-          overwriteLcdText(150, 280, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",homePower);
-          overwriteLcdText(15, 214, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5d",batSoc);
-          tft.drawRGBBitmap(65, 205, percent,9,9);
-          tftPercentRect(42, 230, 15, 32, ILI9341_BLUE, ILI9341_WHITE, batSoc);
+          overwriteLcdTextWorth(6, 93, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W", "%6d",solarPower);
+          overwriteLcdTextWorth(148, 93, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W", "%6d",gridPower);
+          overwriteLcdTextWorth(6, 284, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W", "%6d",batPower);
+          overwriteLcdTextWorth(148, 284, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W", "%6d",homePower);
+          overwriteLcdText(6, 210, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16, "%5d",batSoc);
+          tft.drawRGBBitmap(65, 198, percent16,16,13);
+          tftPercentRect(34, 218, 30, 46, ILI9341_BLUE, ILI9341_WHITE, batSoc);
           tftPercentRect(92, 111, 22, 66, ILI9341_DARKGREY, ILI9341_WHITE, eigenverbrauch);
           tftPercentRect(126, 111, 22, 66, ILI9341_DARKGREEN, ILI9341_WHITE, autarkie);          
           #ifdef EXT_LM_USE
-            overwriteLcdText(15, 194, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",extPower);
+            overwriteLcdTextWorth(6, 194, 82, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",extPower);
           #endif       
           #ifdef EXT_WB_USE
-            overwriteLcdText(150, 194, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",wbAllPower);
+            overwriteLcdTextWorth(148, 194, 82, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbAllPower);
             if(wbSolarPower > 30)
-              overwriteLcdText(150, 205, 75, 11, ILI9341_ORANGE, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",wbSolarPower);
+              overwriteLcdTextWorth(148, 208, 82, 11, ILI9341_ORANGE, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbSolarPower);
             if      ((wbCtrl & WB_CONNECT) == WB_CONNECT)tft.drawRGBBitmap(168, 145, carConnect,52,28);
             else if ((wbCtrl & WB_LOCKED) == WB_LOCKED)tft.drawRGBBitmap(168, 145, carLocked,52,28);
             else if ((wbCtrl & WB_CHARGE) == WB_CHARGE){
@@ -163,15 +163,15 @@ void loop() {
           #endif       
           #ifdef DHT_USE
             if (readDhtPut() == 0){
-              tft.fillRect(90,252,60,32, ILI9341_LIGHTGREY);
-              tft.fillRect(92,254,56,28, ILI9341_WHITE);
-              overwriteLcdText(98, 265, 45, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.1f",temp);
-              tft.drawRGBBitmap(135, 256, celsius,11,9);
-              overwriteLcdText(98, 280, 45, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.0f",hum);
-              tft.drawRGBBitmap(136, 271, percent,9,9);
+              tft.fillRect(90,232,60,32, ILI9341_LIGHTGREY);
+              tft.fillRect(92,234,56,28, ILI9341_WHITE);
+              overwriteLcdText(98, 245, 45, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.1f",temp);
+              tft.drawRGBBitmap(135, 236, celsius,11,9);
+              overwriteLcdText(98, 260, 45, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.0f",hum);
+              tft.drawRGBBitmap(136, 251, percent,9,9);
             }
           #endif       
-          overwriteLcdText(60, 300, 140, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s %s", datum, zeit);
+          overwriteLcdText(60, 304, 140, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s %s", datum, zeit);
           drawWeatherSingleIcon();    
         }
        break; // case SCREEN_AKTUEL
@@ -190,14 +190,14 @@ void loop() {
         }
         if (millis() - printMillis > 1000 || printMillis == 0){ 
           printMillis = millis();        
-          overwriteLcdText(80, 117, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%6d W",solarPower);
-          overwriteLcdText(20, 213, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5d V",pvU1);
-          overwriteLcdText(145, 213, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5d V",pvU2);
-          overwriteLcdText(20, 233, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5.2f A",pvI1 * 0.01);
-          overwriteLcdText(145, 233, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5.2f A",pvI2 * 0.01);
-          overwriteLcdText(20, 253, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5d W",pvP1);
-          overwriteLcdText(145, 253, 75, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%5d W",pvP2);
-          overwriteLcdText(60, 300, 140, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s %s", datum, zeit);
+          overwriteLcdText(80, 117, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%6d W",solarPower);
+          overwriteLcdText(20, 213, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%5d V",pvU1);
+          overwriteLcdText(145, 213, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%5d V",pvU2);
+          overwriteLcdText(20, 233, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%5.2f A",pvI1 * 0.01);
+          overwriteLcdText(145, 233, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%5.2f A",pvI2 * 0.01);
+          overwriteLcdText(20, 253, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%5d W",pvP1);
+          overwriteLcdText(145, 253, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"%5d W",pvP2);
+          overwriteLcdText(60, 304, 140, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s %s", datum, zeit);
         }
         break; // case SCREEN_KABLE_INFO
       }

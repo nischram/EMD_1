@@ -31,6 +31,7 @@
 #include <Fonts/FreeSansBold9pt7b.h>
 #include "Fonts/Monospaced_bold_10.h"
 #include "Fonts/Monospaced_bold_13.h"
+#include "Fonts/Monospaced_bold_16.h"
 #include "Fonts/SansSerif_plain_11.h"
 #include "graphics.h"
 /*______End of Libraries_______*/
@@ -117,8 +118,10 @@ void tftPrintInit(const char *format, ...){
   va_start(argptr, format);
   vsprintf(output,  format, argptr);
 
-  tft.setCursor(12, initPosition);
-  tft.printf(output);
+  if(initPosition < 308){
+    tft.setCursor(12, initPosition);
+    tft.printf(output);
+  }
   initPosition = initPosition + 11;
 }
 void drawBitmapRGB(int t, const uint16_t bitmap[], int16_t w, int16_t h) {
@@ -161,6 +164,7 @@ void printLcdText(int x, int y, uint16_t c, int font, const char *format, ...) {
   else if(font == FontSansBold9pt7b) tft.setFont(&FreeSansBold9pt7b); 
   else if(font == FontMonospaced_bold_10) tft.setFont(&Monospaced_bold_10); 
   else if(font == FontMonospaced_bold_13) tft.setFont(&Monospaced_bold_13); 
+  else if(font == FontMonospaced_bold_16) tft.setFont(&Monospaced_bold_16); 
   else if(font == FontSansSerif_plain_11) tft.setFont(&SansSerif_plain_11); 
   tft.printf(output);
 }
@@ -171,6 +175,15 @@ void overwriteLcdText(int x, int y, int w, int h, uint16_t c,uint16_t bg, int fo
   vsprintf(output,  format, argptr);
   tft.fillRect(x, y-h, w, h, bg);
   printLcdText(x, y, c, font, output);
+}
+void overwriteLcdTextWorth(int x, int y, int w, int h, uint16_t c,uint16_t bg, int font, char worth[6], const char *format, ...) {
+  va_list argptr;
+  char output[128];
+  va_start(argptr, format);
+  vsprintf(output,  format, argptr);
+  tft.fillRect(x, y-h, w, h, bg);
+  printLcdText(x, y, c, font, output);
+  printLcdText(x+w-11, y, c, font, worth);
 }
 bool checkTouch(){
   if (Touch_Event()== true) { 

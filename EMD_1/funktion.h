@@ -83,11 +83,11 @@ void drawScreenAktuel(){
     if(!drawScreen){
       Serial.println("Display Screen   :  Aktuell");
       tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
-      tft.fillRect(6, 6, 228, 308, ILI9341_LIGHTGREY);
-      tft.fillRect(12, 12, 216, 296, ILI9341_WHITE);
+      tft.fillRect(6, 6, 228, 308, ILI9341_WHITE);
       drawBitmapRGB(Pos_Sym_PV, Sym_PV,60,60);
       drawBitmapRGB(Pos_Sym_Grid, Sym_Grid,60,60);
-      drawBitmapRGB(Pos_Sym_Bat, Sym_Bat,60,60);
+      tft.fillRect(30, 214, 38, 54, ILI9341_DARKGREY);
+      tft.fillRect(34, 218, 30, 46, ILI9341_WHITE);
       drawBitmapRGB(Pos_Sym_Home, Sym_Home,60,60);
       #ifdef EXT_LM_USE
         drawBitmapRGB(Pos_Sym_Ext, Sym_Ext,52,52);
@@ -103,7 +103,7 @@ void drawScreenPV(){
     if(!drawScreen){
       drawMainScreen();
       Serial.println("Display Screen   :  PV");
-      tft.fillRect(12, 26, 216, 282, ILI9341_WHITE);
+      tft.fillRect(6, 20, 228, 294, ILI9341_WHITE);
       drawBitmapRGB(Pos_PV_Mitte, Sym_PV,60,60);
       drawBitmapRGB(Pos_Modul_1, PV_Modul,60,52);
       drawBitmapRGB(Pos_Modul_2, PV_Modul,60,52);
@@ -117,8 +117,7 @@ void drawScreenWetter(){
     if(!drawScreen){
       Serial.println("Display Screen   :  Wetter");
       tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
-      tft.fillRect(6, 6, 228, 308, ILI9341_LIGHTGREY);
-      tft.fillRect(12, 12, 216, 296, ILI9341_WHITE);
+      tft.fillRect(6, 6, 228, 308, ILI9341_WHITE);
       drawBitmapRGB(Pos_Sym_Back, Sym_Back,32,21);
       drawBitmapRGB(Pos_newCall, newCall,32,21);
       drawScreen = READY;
