@@ -3,8 +3,8 @@
 
 //#######################################
 // Software Parameter
-#define SW_VERSION                  1.00
-#define SW_DATE                    "13.06.2021"
+#define SW_VERSION                  1.02
+#define SW_DATE                    "07.04.2022"
 #define TYPE                       "EMD-1 : "
 
 //#######################################
@@ -40,14 +40,14 @@
 #define DHT_TYPE                    11                      // 11 = DHT11 / 22 = DHT22
 //#######################################
 // W-LAN Parameter
-#define STASSID1                   "W-LAN SSID 1"           // W-LAN SSID
-#define STAPSK1                    "W-LAN Schlüssel 1"      // W-LAN Schlüssel
-#define STASSID2                   "W-LAN SSID 2"           // W-LAN SSID
-#define STAPSK2                    "W-LAN Schlüssel 2"      // W-LAN Schlüssel
-#define STASSID3                   "W-LAN SSID 3"           // W-LAN SSID
-#define STAPSK3                    "W-LAN Schlüssel 3"      // W-LAN Schlüssel
+#define STASSID1                   "W-LAN SSID 1"            // W-LAN SSID
+#define STAPSK1                    "W-LAN Schlüssel 1"       // W-LAN Schlüssel
+#define STASSID2                   "W-LAN SSID 2"            // W-LAN SSID
+#define STAPSK2                    "W-LAN Schlüssel 2"       // W-LAN Schlüssel
+#define STASSID3                   "W-LAN SSID 3"            // W-LAN SSID
+#define STAPSK3                    "W-LAN Schlüssel 3"       // W-LAN Schlüssel
 
-#define WIFI_TIMEOUT                 6                      // Sekunden
+#define WIFI_TIMEOUT                 6                       // Sekunden
 
 //#######################################
 // OTA Parameter
@@ -68,7 +68,7 @@
 #define INTERVALL_MODBUS            1                       // Abfrageintervall in Sekunden,
 #define MODBUS_TIMEOUT              4                       // Sekunden
 #define MB_RESET                    10                      // Modbus-Intervalle bis Reset beim Fehler
-#define MB_REBOOT                   5                       // Zähler Reset bis Reboot beim Fehler
+#define MB_REBOOT                   5                       // Zähler Reset bis Reboot beim Fehler (nicht auf 0 setzen)
 //#define EXT_LM_USE                                          // Aktiv = externer Leistungsmesser ist verbaut
 //#define EXT_WB_USE                                          // Aktiv = Wallbox ist verbaut
 

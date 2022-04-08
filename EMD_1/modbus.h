@@ -105,14 +105,14 @@ void initModbus(const char * ipAdress){
 void closeModbus(IPAddress ip){
     Serial.print("Modbus close     :  ");
     if (mb.disconnect(ip)) Serial.println("ready");
-    else Serial.println("failed!"); 
+    else Serial.println("failed!");
     modbusTimeout = true;
     modbusReady = false;
 }
 void firstReadMagicByte(IPAddress ip){
   if(modbusTimeout == true)return;
   char out[24];
-    while(magicbyte != 0xE3DC ) {  
+    while(magicbyte != 0xE3DC ) {
     mb.readHreg(ip, REG_MAGIC -1, &magicbyte);
     delay(40);
     mb.task();
@@ -154,7 +154,7 @@ void mainTaskMbRead(){
       mb.task();
       mb.readHreg(mbIP_E3DC, REG_EXT +REG_OFFSET +1, &extPowerReg2);delay(mbDelay);
       mb.task();
-    #endif       
+    #endif
     #ifdef EXT_WB_USE
       mb.readHreg(mbIP_E3DC, REG_WB_ALL +REG_OFFSET, &wbAllPowerReg1);delay(mbDelay);
       mb.task();
@@ -166,7 +166,7 @@ void mainTaskMbRead(){
       mb.task();
       mb.readHreg(mbIP_E3DC, REG_WB_CTRL +REG_OFFSET, &wbCtrlReg);delay(mbDelay);
       mb.task();
-    #endif       
+    #endif
     mbDebugCounter++;
     if(mbDebugCounter > 65530) mbDebugCounter = 0;
     if(INTERVALL_MODBUS >= 10 ) {
@@ -199,7 +199,7 @@ void pvTaskMbRead(){
     }
 }
 void mbCalcInt16(uint16_t *reg1, int *value){
-    *value = *reg1; 
+    *value = *reg1;
     *reg1 = 0;
 }
 void mbCalcInt32(uint16_t *reg1, uint16_t *reg2, int *value){
@@ -208,10 +208,13 @@ void mbCalcInt32(uint16_t *reg1, uint16_t *reg2, int *value){
       positiv = *reg2 * 65536 + *reg1;
       negativ = 0;
     } else {
-      negativ = 4294967296 - *reg2 * 65536 - *reg1; 
+      negativ = 4294967296 - *reg2 * 65536 - *reg1;
       positiv = 0;
     }
-    *value = positiv - negativ;
+    if (positiv - negativ > 65520 || positiv - negativ < -65520)
+      *value = 0;
+    else
+      *value = positiv - negativ;
     *reg1 = 0;
     *reg2 = 0;
 }
@@ -227,7 +230,7 @@ void mainMbRead(){
     #ifdef DEBUG
       Serial.printf("Reboot Counter   : %5d\n",readRebootCounter());
       Serial.printf("Debug  Counter   : %5d\n",mbDebugCounter);
-    #endif       
+    #endif
     mbCalcInt32(&solarPowerReg1, &solarPowerReg2, &solarPower);
     mbCalcInt32(&gridPowerReg1, &gridPowerReg2, &gridPower);
     mbCalcInt32(&batPowerReg1, &batPowerReg2, &batPower);
@@ -236,12 +239,12 @@ void mainMbRead(){
     mbCalcAutarkieEigenv(&autarkieReg, &autarkie, &eigenverbrauch);
     #ifdef EXT_LM_USE
       mbCalcInt32(&extPowerReg1, &extPowerReg2, &extPower);
-    #endif       
+    #endif
     #ifdef EXT_WB_USE
       mbCalcInt32(&wbAllPowerReg1, &wbAllPowerReg2, &wbAllPower);
       mbCalcInt32(&wbSolarPowerReg1, &wbSolarPowerReg2, &wbSolarPower);
       mbCalcInt16(&wbCtrlReg, &wbCtrl);
-    #endif       
+    #endif
     Serial.printf("Power Solar      : %6d W\n",solarPower);
     Serial.printf("Power Grid       : %6d W\n",gridPower);
     Serial.printf("Power Batterie   : %6d W\n",batPower);
@@ -251,7 +254,7 @@ void mainMbRead(){
     Serial.printf("Eigenverbrauch   : %6d %%\n",eigenverbrauch);
     #ifdef EXT_LM_USE
       Serial.printf("Power Ext-LM     : %6d W\n",extPower);
-    #endif       
+    #endif
     #ifdef EXT_WB_USE
       Serial.printf("Power WB-All     : %6d W\n",wbAllPower);
       Serial.printf("Power WB-Solar   : %6d W\n",wbSolarPower);
@@ -268,7 +271,7 @@ void mainMbRead(){
       else Serial.printf("lädt nicht\n");
       if ((wbCtrl & WB_PHASES) == WB_PHASES) Serial.printf("WB-Phasen        :   1 von 3\n");
       else Serial.printf("WB-Phasen        :   3 von 3\n");
-    #endif       
+    #endif
 }
 void pvMbRead(){
     Serial.println("_______________________________________ ");
@@ -276,7 +279,7 @@ void pvMbRead(){
     pvTaskMbRead();
     #ifdef DEBUG
       Serial.printf("Reboot Counter   : %5d\n",readRebootCounter());
-    #endif       
+    #endif
     mbCalcInt32(&solarPowerReg1, &solarPowerReg2, &solarPower);
     mbCalcInt16(&PV_U1_Reg, &pvU1);
     mbCalcInt16(&PV_U2_Reg, &pvU2);
@@ -292,7 +295,7 @@ void pvMbRead(){
     Serial.printf("Power  String 1  : %6d W\n",pvP1);
     Serial.printf("Power  String 2  : %6d W\n",pvP2);
 }
-int checkMb(){
+void checkMb(){
     if (magicbyte != 0xE3DC){
       countMbReset++;
       Serial.printf("MB Reset  Count  : %6d\n",countMbReset);

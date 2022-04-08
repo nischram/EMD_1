@@ -16,9 +16,9 @@ void sdSymbol(int x, int y, char const * folder) {
 void wwwSymbol(int x, int y) {
   if (!wifiTimeout) {
     tft.drawRGBBitmap(x,y, wwwOk,16,16);
-  } 
-  else {  
-    tft.drawRGBBitmap(x,y, wwwNOk,16,16); 
+  }
+  else {
+    tft.drawRGBBitmap(x,y, wwwNOk,16,16);
   }
 }
 // Modbus Symbol
@@ -26,8 +26,8 @@ void mbSymbol(int x, int y) {
   if (!modbusTimeout) {
     tft.drawRGBBitmap(x,y, MbOk,16,16);
   }
-  else {  
-    tft.drawRGBBitmap(x,y, MbNOk,16,16);  
+  else {
+    tft.drawRGBBitmap(x,y, MbNOk,16,16);
   }
 }
 
@@ -41,7 +41,7 @@ void drawMainScreen(){
     tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
     printLcdText(6, 14, ILI9341_LIGHTGREY, FontMonospaced_bold_13,"EMD-%.2f ", SW_VERSION);
     tft.fillRect(6, 20, 228, 294, ILI9341_LIGHTGREY);
-  
+
     //check SD, WWW, MB and make symbol
     sdSymbol(POS_SD, 2, "/update");
     wwwSymbol(POS_MB, 2);
@@ -91,7 +91,7 @@ void drawScreenAktuel(){
       drawBitmapRGB(Pos_Sym_Home, Sym_Home,60,60);
       #ifdef EXT_LM_USE
         drawBitmapRGB(Pos_Sym_Ext, Sym_Ext,52,52);
-      #endif       
+      #endif
       drawBitmapRGB(Pos_Sym_E3DC, Sym_E3DC,80,80);
       drawBitmapRGB(Pos_Sym_Back, Sym_Back,32,21);
       weatherMillis = 0;
@@ -157,11 +157,11 @@ void drawScreenRefresh(){
       tft.fillRect(touchXmin[Small_R1_S2], touchYmin[Small_R1_S2], 168, 40, ILI9341_WHITE);
       printLcdText(touchXmin[Small_R1_S2]+8, touchYmin[Small_R1_S2]+25, ILI9341_DARKGREY, FontSansBold9pt7b,"Neustarten");
       drawBitmapRGB(Small_Menue, menuRefreshSmall,40,40);
-      drawBitmapRGB(Small_Back, menuBackSmall,40,40); 
-      drawBitmapRGB(Small_R3_S1, refreshESP,40,40); 
-      drawBitmapRGB(Small_R4_S1, refreshWifi,40,40); 
-      drawBitmapRGB(Small_R5_S1, refreshModbus,40,40); 
-      drawBitmapRGB(Small_R6_S1, refreshSD,40,40); 
+      drawBitmapRGB(Small_Back, menuBackSmall,40,40);
+      drawBitmapRGB(Small_R3_S1, refreshESP,40,40);
+      drawBitmapRGB(Small_R4_S1, refreshWifi,40,40);
+      drawBitmapRGB(Small_R5_S1, refreshModbus,40,40);
+      drawBitmapRGB(Small_R6_S1, refreshSD,40,40);
       drawScreen = READY;
       drawContent = NEW;
       delay(200);
@@ -177,7 +177,7 @@ void drawScreenUpdate(){
       printLcdText(touchXmin[Small_R1_S2]+8, touchYmin[Small_R1_S2]+25, ILI9341_DARKGREY, FontSansBold9pt7b,"Update EMD -1");
       drawBitmapRGB(Small_Menue, menuUpdateSmall,40,40);
       drawBitmapRGB(Small_Back, menuBackSmall,40,40);
-      drawBitmapRGB(Small_R3_S1, refreshSD,40,40); 
+      drawBitmapRGB(Small_R3_S1, refreshSD,40,40);
       drawScreen = READY;
       delay(200);
     }
@@ -220,7 +220,7 @@ void checkStartScreen(){
     if(screenSaveActiv){
       screenActive = SCREEN_AKTUEL;
       screenSaveActiv = OFF;
-      drawScreen = NEW;     
+      drawScreen = NEW;
       backlightON();
       Serial.println("Screen Save      :  Deaktiv");
     }

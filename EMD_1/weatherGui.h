@@ -71,7 +71,7 @@ int addCallCount(){
     paraESP.putUInt("OWMC",1);
     paraESP.putUInt("OWMC_MON",Month);
   }
-  else 
+  else
     paraESP.putUInt("OWMC",paraESP.getUInt("OWMC")+1);
   return paraESP.getUInt("OWMC");
 }
@@ -79,7 +79,7 @@ int readCallCount(){
   return paraESP.getUInt("OWMC");
 }
 
-  
+
 //  OpenWeatherOneCall variables
 
 //For Latitude and Longitude Location setting if used
@@ -111,10 +111,10 @@ void startWeatherCall(){
 
       // First set your Key value
     OWOC.setOpenWeatherKey(WEATHER_KEY);
-  
+
     // Counter for OpenWeatherOneCall ++
     addCallCount();
-    
+
     // Second set your position (can be CITY ID or Manual LATITUDE/LONGITUDE)
     // Choose one of the following options
 
@@ -127,19 +127,19 @@ void startWeatherCall(){
       // If we are using CITY ID
       OWOC.setLatLon(myCITYID);
     #endif
-    
+
     // Third set any EXCLUDES if required (Here we are not using any
     OWOC.setExcl(myEXCLUDES);
-  
+
     // Set History if you want historical weather other wise NULL
     OWOC.setHistory(myHISTORY);
-     
+
       // Set UNITS of MEASURE otherwise default is IMPERIAL
     OWOC.setUnits(myUNITS);
-  
+
      //Now call the weather. Please notice no arguments are required in this call
     OWOC.parseWeather();
-  
+
 }
 void displayWeather() {
   if(strcmp(WEATHER_KEY, "12345678910111213141516171819202")==0){
@@ -158,84 +158,84 @@ void displayWeather() {
 
     // Set Ecludes
     myEXCLUDES = EXCL_H+EXCL_M;
-    
+
     // Start Weather Call
     startWeatherCall();
-    
+
     //Now display some information, note the pointer requirement for current and alert, this is NEW for v3.0.0
-  
+
     // Location info is available for ALL modes (History/Current)
-    printf("\nLocation   : % s, % s % s\n", OWOC.location.CITY, OWOC.location.STATE, OWOC.location.COUNTRY);
-    printf("Timeoffset : %i Sek.\n\n", OWOC.location.timezoneOffset);
-  
+    Serial.printf("\nLocation   : %s, %s %s\n", OWOC.location.CITY, OWOC.location.STATE, OWOC.location.COUNTRY);
+    Serial.printf("Timeoffset : %i Sek.\n\n", OWOC.location.timezoneOffset);
+
     //Verify all other values exist before using
       if (OWOC.current)
       {
         makeClock(OWOC.current->dayTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Current Temp       : %.1f °C\n", OWOC.current->temperature);
-        printf("Current Humidity   : %.0f %%\n", OWOC.current->humidity);
-        printf("Current Pressure   : %.0f\n", OWOC.current->pressure);
-        printf("Current windSpeed  : %.1f m/s\n", OWOC.current->windSpeed);
-        printf("Current icon       : %s\n", OWOC.current->icon);
+        Serial.printf("Current Temp       : %.1f °C\n", OWOC.current->temperature);
+        Serial.printf("Current Humidity   : %.0f %%\n", OWOC.current->humidity);
+        Serial.printf("Current Pressure   : %.0f\n", OWOC.current->pressure);
+        Serial.printf("Current windSpeed  : %.1f m/s\n", OWOC.current->windSpeed);
+        Serial.printf("Current icon       : %s\n", OWOC.current->icon);
         weatherCallReady = true;
       }
       if (OWOC.forecast)
       {
-        printf("\n");
+        Serial.printf("\n");
         makeClock(OWOC.forecast[0].dayTime, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[0].temperatureHigh);
-        printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[0].temperatureLow);
-        printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[0].rainVolume);
-        printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[0].icon);
+        Serial.printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[0].temperatureHigh);
+        Serial.printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[0].temperatureLow);
+        Serial.printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[0].rainVolume);
+        Serial.printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[0].icon);
         makeClock(OWOC.forecast[0].sunriseTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
         makeClock(OWOC.forecast[0].sunsetTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
-        printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[0].weekDayName);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[0].weekDayName);
         makeClock(OWOC.forecast[1].dayTime, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s datum   : %s\n", datum);
-        printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[1].temperatureHigh);
-        printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[1].temperatureLow);
-        printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[1].rainVolume);
-        printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[1].icon);
+        Serial.printf("Forecast %s datum   : %s\n", datum, datum);
+        Serial.printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[1].temperatureHigh);
+        Serial.printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[1].temperatureLow);
+        Serial.printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[1].rainVolume);
+        Serial.printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[1].icon);
         makeClock(OWOC.forecast[1].sunriseTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
         makeClock(OWOC.forecast[1].sunsetTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
-        printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[1].weekDayName);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[1].weekDayName);
         makeClock(OWOC.forecast[2].dayTime, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s datum   : %s\n", datum);
-        printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[2].temperatureHigh);
-        printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[2].temperatureLow);
-        printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[2].rainVolume);
-        printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[2].icon);
+        Serial.printf("Forecast %s datum   : %s\n", datum, datum);
+        Serial.printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[2].temperatureHigh);
+        Serial.printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[2].temperatureLow);
+        Serial.printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[2].rainVolume);
+        Serial.printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[2].icon);
         makeClock(OWOC.forecast[2].sunriseTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
         makeClock(OWOC.forecast[2].sunsetTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
-        printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[2].weekDayName);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[2].weekDayName);
         makeClock(OWOC.forecast[3].dayTime, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s datum   : %s\n", datum);
-        printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[3].temperatureHigh);
-        printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[3].temperatureLow);
-        printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[3].rainVolume);
-        printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[3].icon);
+        Serial.printf("Forecast %s datum   : %s\n", datum, datum);
+        Serial.printf("Forecast %s Temp H  : %.0f °C\n", datum, OWOC.forecast[3].temperatureHigh);
+        Serial.printf("Forecast %s Temp L  : %.0f °C\n", datum, OWOC.forecast[3].temperatureLow);
+        Serial.printf("Forecast %s Rain    : %.1f l\n", datum, OWOC.forecast[3].rainVolume);
+        Serial.printf("Forecast %s Icon    : %s\n", datum, OWOC.forecast[3].icon);
         makeClock(OWOC.forecast[3].sunriseTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
         makeClock(OWOC.forecast[3].sunsetTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
-        printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
-        printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[3].weekDayName);
+        Serial.printf("Forecast %s Sunset  : %s\n", datum, zeitHoMi);
+        Serial.printf("Forecast %s WeekDay : %s\n", datum, OWOC.forecast[3].weekDayName);
         weatherCallReady = true;
       }
-  
+
       if (OWOC.alert) {
-        printf("ALERT *** ALERT *** ALERT\n");
-        printf("Sender : % s\n", OWOC.alert->senderName);
-        printf("Event  : % s\n", OWOC.alert->event);
-        printf("ALERT  : % s\n", OWOC.alert->summary);
+        Serial.printf("ALERT *** ALERT *** ALERT\n");
+        Serial.printf("Sender : %s\n", OWOC.alert->senderName);
+        Serial.printf("Event  : %s\n", OWOC.alert->event);
+        Serial.printf("ALERT  : %s\n", OWOC.alert->summary);
         weatherCallReady = true;
       }
-  
+
       //Screen
       makeClock(OWOC.current->dayTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
       overwriteLcdText(50, 24, 150, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s %s %s", OWOC.forecast[0].weekDayName, datum, zeitHoMi);
@@ -249,7 +249,7 @@ void displayWeather() {
       overwriteLcdText(52, 65, 40, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s", zeitHoMi);
       overwriteLcdText(25, 110, 60, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%4.1f\n", OWOC.current->windSpeed);
       printLcdText(55,110, ILI9341_DARKGREY, FontMonospaced_bold_10,"m");printLcdText(61,110, ILI9341_DARKGREY, FontMonospaced_bold_10,"/");printLcdText(65,110, ILI9341_DARKGREY, FontMonospaced_bold_10,"s");
-      
+
       overwriteLcdText(160, 50, 68, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.1f\n", OWOC.current->temperature);
       tft.drawRGBBitmap(200, 41, celsius,11,9);
       overwriteLcdText(160, 65, 68, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_13,"%4.0f\n", OWOC.current->humidity);
@@ -301,23 +301,23 @@ void displayWeather() {
       overwriteLcdText(86, 243, 30, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%4.0f\n", OWOC.forecast[1].pressure);
       overwriteLcdText(132, 243, 30, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%4.0f\n", OWOC.forecast[2].pressure);
       overwriteLcdText(178, 243, 30, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%4.0f\n", OWOC.forecast[3].pressure);
-  
+
       overwriteLcdText(60, 276, 160, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"OpenWeatherMap");
       overwriteLcdText(60, 286, 160, 8, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_10,"OneCallCounter:%4i", readCallCount());
-      
+
       weatherCallReady = true;
   }
 }
 void drawWeatherSingleIcon() {
-      if (millis() - weatherMillis > WEATHER_INTERVALL *60*1000 || weatherMillis == 0){ 
-        weatherMillis = millis(); 
+      if (millis() - weatherMillis > WEATHER_INTERVALL *60*1000 || weatherMillis == 0){
+        weatherMillis = millis();
         if(strcmp(WEATHER_KEY, "12345678910111213141516171819202")==1){
           // Set Ecludes
           myEXCLUDES = EXCL_H+EXCL_M+EXCL_D+EXCL_A;
-          
+
           // Start Weather Call
           startWeatherCall();
-      
+
           if (OWOC.current)
           {
             drawWeatherIcon(OWOC.current->icon,80,10);

@@ -2,10 +2,10 @@
 #define __DISPLAY_H_
 
 /*
- *  Application note: Simple Keylock / Keypad for ArduiTouch and ESP32  
+ *  Application note: Simple Keylock / Keypad for ArduiTouch and ESP32
  *  Version 1.0
  *  Copyright (C) 2019  Hartmut Wendt  www.zihatec.de
- *  
+ *
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/   
+*/
 
 /*______Import Libraries_______*/
 #include <Arduino.h>
@@ -39,11 +39,11 @@
 /*__Pin definitions for the ESP32__*/
 #define TFT_CS           5
 #define TFT_DC           4
-#define TFT_LED          15  
+#define TFT_LED          15
 #define TFT_MOSI         23
 #define TFT_CLK          18
 #define TFT_RST          22
-#define TFT_MISO         19 
+#define TFT_MISO         19
 
 #define HAVE_TOUCHPAD
 #define TOUCH_CS         14
@@ -77,12 +77,12 @@ bool Touch_pressed = false;
 TS_Point p;
 
 /********************************************************************//**
- * @brief     detects a touch event and converts touch data 
+ * @brief     detects a touch event and converts touch data
  * @param[in] None
- * @return    boolean (true = touch pressed, false = touch unpressed) 
+ * @return    boolean (true = touch pressed, false = touch unpressed)
  *********************************************************************/
 bool Touch_Event() {
-  p = touch.getPoint(); 
+  p = touch.getPoint();
   #ifdef TOUCH_YELLOW_HEADER
     p.x = map(p.x, TS_MINX, TS_MAXX, 240, 0); // yellow header
     p.y = map(p.y, TS_MINY, TS_MAXY, 320, 0);
@@ -90,8 +90,8 @@ bool Touch_Event() {
     p.x = map(p.x, TS_MINX, TS_MAXX, 0, 240); // black header
     p.y = map(p.y, TS_MINY, TS_MAXY, 0, 320);
   #endif
-  if (p.z > MINPRESSURE) return true;  
-  return false;  
+  if (p.z > MINPRESSURE) return true;
+  return false;
 }
 // Screen Rotation
 int changeRotation(){
@@ -105,10 +105,10 @@ int readRotation(){
 
 
 void backlightON(){
-    digitalWrite(TFT_LED, LOW);    // LOW to turn backlight on; 
+    digitalWrite(TFT_LED, LOW);    // LOW to turn backlight on;
 }
 void backlightOFF(){
-    digitalWrite(TFT_LED, HIGH);   // HIGH to turn backlight off;  
+    digitalWrite(TFT_LED, HIGH);   // HIGH to turn backlight off;
 }
 
 int initPosition = 152;
@@ -132,7 +132,7 @@ void initTouch(){
   backlightOFF();
   Serial.print("Init TFT         :  ");
   tft.begin();
-  tft.setRotation(readRotation());   // landscape mode 
+  tft.setRotation(readRotation());   // landscape mode
   Serial.print("TFT-X ="); Serial.print(tft.width());
   Serial.print(" TFT-Y ="); Serial.println(tft.height());
   Serial.print("Init Tuoch       :  ");
@@ -143,7 +143,7 @@ void initTouch(){
   tft.fillRect(6, 148, 228, 166, ILI9341_WHITE);
   tft.setTextSize(0);
   tft.setTextColor(ILI9341_DARKGREY);
-  tft.setFont(&Monospaced_bold_10);    
+  tft.setFont(&Monospaced_bold_10);
   backlightON();
   delay(200);
   Serial.println("done");
@@ -161,11 +161,11 @@ void printLcdText(int x, int y, uint16_t c, int font, const char *format, ...) {
   tft.setCursor(x, y);
   tft.setTextColor(c);
   if(font ==FontSans9pt7b) tft.setFont(&FreeSans9pt7b);
-  else if(font == FontSansBold9pt7b) tft.setFont(&FreeSansBold9pt7b); 
-  else if(font == FontMonospaced_bold_10) tft.setFont(&Monospaced_bold_10); 
-  else if(font == FontMonospaced_bold_13) tft.setFont(&Monospaced_bold_13); 
-  else if(font == FontMonospaced_bold_16) tft.setFont(&Monospaced_bold_16); 
-  else if(font == FontSansSerif_plain_11) tft.setFont(&SansSerif_plain_11); 
+  else if(font == FontSansBold9pt7b) tft.setFont(&FreeSansBold9pt7b);
+  else if(font == FontMonospaced_bold_10) tft.setFont(&Monospaced_bold_10);
+  else if(font == FontMonospaced_bold_13) tft.setFont(&Monospaced_bold_13);
+  else if(font == FontMonospaced_bold_16) tft.setFont(&Monospaced_bold_16);
+  else if(font == FontSansSerif_plain_11) tft.setFont(&SansSerif_plain_11);
   tft.printf(output);
 }
 void overwriteLcdText(int x, int y, int w, int h, uint16_t c,uint16_t bg, int font, const char *format, ...) {
@@ -186,9 +186,9 @@ void overwriteLcdTextWorth(int x, int y, int w, int h, uint16_t c,uint16_t bg, i
   printLcdText(x+w-11, y, c, font, worth);
 }
 bool checkTouch(){
-  if (Touch_Event()== true) { 
+  if (Touch_Event()== true) {
     X = p.x + TOUCH_OFFSET_X; Y = p.y + TOUCH_OFFSET_Y;
-    Touch_pressed = true; 
+    Touch_pressed = true;
     Serial.print("Y ");Serial.print(Y);Serial.print(" X ");Serial.println(X); //Kontrolle Touch
   }
   else {
@@ -225,9 +225,9 @@ bool checkBackToMain(){
           return false;
 }
 void touchCheck(){
-  if(touchField(Main_R1_S1) || 
-     touchField(Main_R1_S2) || 
-     touchField(Main_R2_S1) || 
+  if(touchField(Main_R1_S1) ||
+     touchField(Main_R1_S2) ||
+     touchField(Main_R2_S1) ||
      touchField(Main_R2_S2) ||
      touchField(Main_R3_S1) ||
      touchField(Main_R3_S2) ){
