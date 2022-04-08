@@ -1,5 +1,5 @@
 # E3DC-Modbus-Display-1
-[Stand: V1.02 08.04.2022](https://github.com/nischram/EMD_1#changelog)
+[Stand: V1.03 08.04.2022](https://github.com/nischram/EMD_1#changelog)
 
 Hier beschreibe ich, wie du die Daten eines S10 Hauskraftwerk von E3DC auf einem Display anzeigen kannst.
 
@@ -178,6 +178,9 @@ Wenn alles Vorbereitet ist in der Arduino-IDE die richtige Einstellung für den 
 <img width="200" src="https://user-images.githubusercontent.com/19279623/121818853-17190180-cc8a-11eb-8655-683f7e6377cc.png" alt="OTA-Update">  
 
 ### Versionen
+V1.03 08.04.2022 [Issue #5](https://github.com/nischram/EMD_1/issues/5) Modbus-Port wird in der neuen Version von "modbus-esp8266" anders benannt  
+- Issue #5 "MODBUSIP_PORT" geändert in "MODBUSTCP_PORT"   
+
 V1.02 08.04.2022 [Issue #5](https://github.com/nischram/EMD_1/issues/5) Änderung der Modbusabfragen für Doppelregister  
 - Issue #5 Doppelregister werden jetzt ohne delay abgefragt   
 - Kleine Anpassungen um Warnungen beim kompilieren zu vermeiden   

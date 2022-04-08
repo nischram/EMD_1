@@ -3,7 +3,7 @@
 
 //#######################################
 // Software Parameter
-#define SW_VERSION                  1.02
+#define SW_VERSION                  1.03
 #define SW_DATE                    "07.04.2022"
 #define TYPE                       "EMD-1 : "
 

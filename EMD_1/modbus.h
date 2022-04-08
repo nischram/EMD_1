@@ -17,6 +17,13 @@ ModbusIP mb;  //ModbusIP
 IPAddress mbIP_E3DC;
 int mbDelay = 45;
 
+union DoubleRegister
+{
+    int32_t  dr;    // occupies 4 bytes
+    uint16_t sr[2]; // occupies 4 bytes
+};
+
+DoubleRegister registerBuffer;
 uint16_t magicbyte = 0;
 uint16_t solarPowerReg1        = 0;
 uint16_t solarPowerReg2        = 0;
@@ -89,7 +96,7 @@ void initModbus(const char * ipAdress){
     tftPrintInit("Modbus status  : connected");
 
     Serial.print("Modbus port      :  ");
-    Serial.println(MODBUSIP_PORT);
+    Serial.println(MODBUSTCP_PORT);
     modbusTimeout = false;
     modbusReady = true;
   }
@@ -129,41 +136,43 @@ void mainTaskMbRead(){
     }
     mb.readHreg(mbIP_E3DC, REG_MAGIC -1, &magicbyte);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &solarPowerReg1);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET +1, &solarPowerReg2);delay(mbDelay);
+    solarPowerReg1 = registerBuffer.sr[0];
+    solarPowerReg2 = registerBuffer.sr[1];
+    mb.readHreg(mbIP_E3DC, REG_GRID +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_GRID +REG_OFFSET, &gridPowerReg1);delay(mbDelay);
+    gridPowerReg1 = registerBuffer.sr[0];
+    gridPowerReg2 = registerBuffer.sr[1];
+    mb.readHreg(mbIP_E3DC, REG_BAT +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_GRID +REG_OFFSET +1, &gridPowerReg2);delay(mbDelay);
+    batPowerReg1 = registerBuffer.sr[0];
+    batPowerReg2 = registerBuffer.sr[1];
+    mb.readHreg(mbIP_E3DC, REG_CON +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_BAT +REG_OFFSET, &batPowerReg1);delay(mbDelay);
-    mb.task();
-    mb.readHreg(mbIP_E3DC, REG_BAT +REG_OFFSET +1, &batPowerReg2);delay(mbDelay);
-    mb.task();
-    mb.readHreg(mbIP_E3DC, REG_CON +REG_OFFSET, &homePowerReg1);delay(mbDelay);
-    mb.task();
-    mb.readHreg(mbIP_E3DC, REG_CON +REG_OFFSET +1, &homePowerReg2);delay(mbDelay);
-    mb.task();
+    homePowerReg1 = registerBuffer.sr[0];
+    homePowerReg2 = registerBuffer.sr[1];
     mb.readHreg(mbIP_E3DC, REG_BATSOC +REG_OFFSET, &batSocReg);delay(mbDelay);
     mb.task();
     mb.readHreg(mbIP_E3DC, REG_AUTARKIE +REG_OFFSET, &autarkieReg);delay(mbDelay);
     mb.task();
     #ifdef EXT_LM_USE
-      mb.readHreg(mbIP_E3DC, REG_EXT +REG_OFFSET, &extPowerReg1);delay(mbDelay);
+      mb.readHreg(mbIP_E3DC, REG_EXT +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
       mb.task();
-      mb.readHreg(mbIP_E3DC, REG_EXT +REG_OFFSET +1, &extPowerReg2);delay(mbDelay);
-      mb.task();
-    #endif
+      extPowerReg1 = registerBuffer.sr[0];
+      extPowerReg2 = registerBuffer.sr[1];
+
+#endif
     #ifdef EXT_WB_USE
-      mb.readHreg(mbIP_E3DC, REG_WB_ALL +REG_OFFSET, &wbAllPowerReg1);delay(mbDelay);
+      mb.readHreg(mbIP_E3DC, REG_WB_ALL +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
       mb.task();
-      mb.readHreg(mbIP_E3DC, REG_WB_ALL +REG_OFFSET +1, &wbAllPowerReg2);delay(mbDelay);
+      wbAllPowerReg1 = registerBuffer.sr[0];
+      wbAllPowerReg2 = registerBuffer.sr[1];
+      mb.readHreg(mbIP_E3DC, REG_WB_SOLAR +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
       mb.task();
-      mb.readHreg(mbIP_E3DC, REG_WB_SOLAR +REG_OFFSET, &wbSolarPowerReg1);delay(mbDelay);
-      mb.task();
-      mb.readHreg(mbIP_E3DC, REG_WB_SOLAR +REG_OFFSET +1, &wbSolarPowerReg2);delay(mbDelay);
-      mb.task();
+      wbSolarPowerReg1 = registerBuffer.sr[0];
+      wbSolarPowerReg2 = registerBuffer.sr[1];
+
       mb.readHreg(mbIP_E3DC, REG_WB_CTRL +REG_OFFSET, &wbCtrlReg);delay(mbDelay);
       mb.task();
     #endif
@@ -178,10 +187,10 @@ void pvTaskMbRead(){
       mb.connect(mbIP_E3DC);
       delay(mbDelay);
     }
-    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &solarPowerReg1);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET +1, &solarPowerReg2);delay(mbDelay);
-    mb.task();
+    solarPowerReg1 = registerBuffer.sr[0];
+    solarPowerReg2 = registerBuffer.sr[1];
     mb.readHreg(mbIP_E3DC, REG_PV_U1 +REG_OFFSET, &PV_U1_Reg);delay(mbDelay);
     mb.task();
     mb.readHreg(mbIP_E3DC, REG_PV_U2 +REG_OFFSET, &PV_U2_Reg);delay(mbDelay);
@@ -211,10 +220,7 @@ void mbCalcInt32(uint16_t *reg1, uint16_t *reg2, int *value){
       negativ = 4294967296 - *reg2 * 65536 - *reg1;
       positiv = 0;
     }
-    if (positiv - negativ > 65520 || positiv - negativ < -65520)
-      *value = 0;
-    else
-      *value = positiv - negativ;
+    *value = positiv - negativ;
     *reg1 = 0;
     *reg2 = 0;
 }
