@@ -16,7 +16,7 @@ void initPreferences(){
 // Variable
 int screenChoose = 1, screenActive = SCREEN_AKTUEL, mainScreen;
 bool drawScreen = NEW, drawContent = NEW, drawButton = NEW;
-bool enter = false;
+bool enter = false, firstBoot = true;
 bool wifiTimeout = false, noDeepSleep = false, screenSaveActiv = false;
 int ret, delayTime = 20;
 
@@ -65,6 +65,7 @@ void setup() {
   Serial.printf("Screen Save Time :  %i\n", readScreenSave());
   lastScreenMillis = millis();
   delay(4000);
+  firstBoot = false;
 }
 void loop() {
 

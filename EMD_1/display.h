@@ -118,7 +118,7 @@ void tftPrintInit(const char *format, ...){
   va_start(argptr, format);
   vsprintf(output,  format, argptr);
 
-  if(initPosition < 308){
+  if(initPosition < 308 && firstBoot){
     tft.setCursor(12, initPosition);
     tft.printf(output);
   }
