@@ -107,8 +107,8 @@ void checkUpdateBin(char * filepath){
       if (existsUpdateBin()) break;
       findUpdate--;
     }
-    sprintf(filepath, "/update/EMD_1.bin",findUpdate);
-    sprintf(updateInfo1, "Update: EMD_1.bin",findUpdate);
+    sprintf(filepath, "/update/EMD_1.bin");
+    sprintf(updateInfo1, "Update: EMD_1.bin");
 }
 bool checkSdCard(){
   if (SD.exists("/"))return true;

@@ -2,12 +2,6 @@
 #define __PARAMETER_H_
 
 //#######################################
-// Software Parameter
-#define SW_VERSION                  1.03
-#define SW_DATE                    "07.04.2022"
-#define TYPE                       "EMD-1 : "
-
-//#######################################
 // ESP Parameter
 
 #define ESP32

@@ -25,20 +25,13 @@ union DoubleRegister
 
 DoubleRegister registerBuffer;
 uint16_t magicbyte = 0;
-uint16_t solarPowerReg1        = 0;
-uint16_t solarPowerReg2        = 0;
-uint16_t gridPowerReg1         = 0;
-uint16_t gridPowerReg2         = 0;
-uint16_t batPowerReg1          = 0;
-uint16_t batPowerReg2          = 0;
-uint16_t homePowerReg1         = 0;
-uint16_t homePowerReg2         = 0;
-uint16_t extPowerReg1          = 0;
-uint16_t extPowerReg2          = 0;
-uint16_t wbAllPowerReg1        = 0;
-uint16_t wbAllPowerReg2        = 0;
-uint16_t wbSolarPowerReg1      = 0;
-uint16_t wbSolarPowerReg2      = 0;
+DoubleRegister solarPowerReg;
+DoubleRegister gridPowerReg;
+DoubleRegister batPowerReg;
+DoubleRegister homePowerReg;
+DoubleRegister extPowerReg;
+DoubleRegister wbAllPowerReg;
+DoubleRegister wbSolarPowerReg;
 uint16_t wbCtrlReg             = 0;
 uint16_t batSocReg             = 0;
 uint16_t autarkieReg           = 0;
@@ -136,43 +129,28 @@ void mainTaskMbRead(){
     }
     mb.readHreg(mbIP_E3DC, REG_MAGIC -1, &magicbyte);delay(mbDelay);
     mb.task();
-    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &solarPowerReg.sr[0], 2);delay(mbDelay);
     mb.task();
-    solarPowerReg1 = registerBuffer.sr[0];
-    solarPowerReg2 = registerBuffer.sr[1];
-    mb.readHreg(mbIP_E3DC, REG_GRID +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_GRID +REG_OFFSET, &gridPowerReg.sr[0], 2);delay(mbDelay);
     mb.task();
-    gridPowerReg1 = registerBuffer.sr[0];
-    gridPowerReg2 = registerBuffer.sr[1];
-    mb.readHreg(mbIP_E3DC, REG_BAT +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_BAT +REG_OFFSET, &batPowerReg.sr[0], 2);delay(mbDelay);
     mb.task();
-    batPowerReg1 = registerBuffer.sr[0];
-    batPowerReg2 = registerBuffer.sr[1];
-    mb.readHreg(mbIP_E3DC, REG_CON +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_CON +REG_OFFSET, &homePowerReg.sr[0], 2);delay(mbDelay);
     mb.task();
-    homePowerReg1 = registerBuffer.sr[0];
-    homePowerReg2 = registerBuffer.sr[1];
     mb.readHreg(mbIP_E3DC, REG_BATSOC +REG_OFFSET, &batSocReg);delay(mbDelay);
     mb.task();
     mb.readHreg(mbIP_E3DC, REG_AUTARKIE +REG_OFFSET, &autarkieReg);delay(mbDelay);
     mb.task();
     #ifdef EXT_LM_USE
-      mb.readHreg(mbIP_E3DC, REG_EXT +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+      mb.readHreg(mbIP_E3DC, REG_EXT +REG_OFFSET, &extPowerReg.sr[0], 2);delay(mbDelay);
       mb.task();
-      extPowerReg1 = registerBuffer.sr[0];
-      extPowerReg2 = registerBuffer.sr[1];
 
 #endif
     #ifdef EXT_WB_USE
-      mb.readHreg(mbIP_E3DC, REG_WB_ALL +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+      mb.readHreg(mbIP_E3DC, REG_WB_ALL +REG_OFFSET, &wbAllPowerReg.sr[0], 2);delay(mbDelay);
       mb.task();
-      wbAllPowerReg1 = registerBuffer.sr[0];
-      wbAllPowerReg2 = registerBuffer.sr[1];
-      mb.readHreg(mbIP_E3DC, REG_WB_SOLAR +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+      mb.readHreg(mbIP_E3DC, REG_WB_SOLAR +REG_OFFSET, &wbSolarPowerReg.sr[0], 2);delay(mbDelay);
       mb.task();
-      wbSolarPowerReg1 = registerBuffer.sr[0];
-      wbSolarPowerReg2 = registerBuffer.sr[1];
-
       mb.readHreg(mbIP_E3DC, REG_WB_CTRL +REG_OFFSET, &wbCtrlReg);delay(mbDelay);
       mb.task();
     #endif
@@ -187,10 +165,8 @@ void pvTaskMbRead(){
       mb.connect(mbIP_E3DC);
       delay(mbDelay);
     }
-    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &registerBuffer.sr[0], 2);delay(mbDelay);
+    mb.readHreg(mbIP_E3DC, REG_SOLAR +REG_OFFSET, &solarPowerReg.sr[0], 2);delay(mbDelay);
     mb.task();
-    solarPowerReg1 = registerBuffer.sr[0];
-    solarPowerReg2 = registerBuffer.sr[1];
     mb.readHreg(mbIP_E3DC, REG_PV_U1 +REG_OFFSET, &PV_U1_Reg);delay(mbDelay);
     mb.task();
     mb.readHreg(mbIP_E3DC, REG_PV_U2 +REG_OFFSET, &PV_U2_Reg);delay(mbDelay);
@@ -211,18 +187,18 @@ void mbCalcInt16(uint16_t *reg1, int *value){
     *value = *reg1;
     *reg1 = 0;
 }
-void mbCalcInt32(uint16_t *reg1, uint16_t *reg2, int *value){
+void mbCalcInt32(DoubleRegister reg, int *value){
     int positiv, negativ;
-    if(*reg2 < 32768){
-      positiv = *reg2 * 65536 + *reg1;
+    if(reg.sr[1] < 32768){
+      positiv = reg.sr[1] * 65536 + reg.sr[0];
       negativ = 0;
     } else {
-      negativ = 4294967296 - *reg2 * 65536 - *reg1;
+      negativ = 4294967296 - reg.sr[1] * 65536 - reg.sr[0];
       positiv = 0;
     }
     *value = positiv - negativ;
-    *reg1 = 0;
-    *reg2 = 0;
+    reg.sr[0] = 0;
+    reg.sr[1] = 0;
 }
 void mbCalcAutarkieEigenv(uint16_t *reg, int *Autarkie, int *Eigenverbrauch){
     *Autarkie = *reg / 256;
@@ -237,18 +213,18 @@ void mainMbRead(){
       Serial.printf("Reboot Counter   : %5d\n",readRebootCounter());
       Serial.printf("Debug  Counter   : %5d\n",mbDebugCounter);
     #endif
-    mbCalcInt32(&solarPowerReg1, &solarPowerReg2, &solarPower);
-    mbCalcInt32(&gridPowerReg1, &gridPowerReg2, &gridPower);
-    mbCalcInt32(&batPowerReg1, &batPowerReg2, &batPower);
-    mbCalcInt32(&homePowerReg1, &homePowerReg2, &homePower);
+    mbCalcInt32(solarPowerReg, &solarPower);
+    mbCalcInt32(gridPowerReg, &gridPower);
+    mbCalcInt32(batPowerReg, &batPower);
+    mbCalcInt32(homePowerReg, &homePower);
     mbCalcInt16(&batSocReg, &batSoc);
     mbCalcAutarkieEigenv(&autarkieReg, &autarkie, &eigenverbrauch);
     #ifdef EXT_LM_USE
-      mbCalcInt32(&extPowerReg1, &extPowerReg2, &extPower);
+      mbCalcInt32(extPowerReg, &extPower);
     #endif
     #ifdef EXT_WB_USE
-      mbCalcInt32(&wbAllPowerReg1, &wbAllPowerReg2, &wbAllPower);
-      mbCalcInt32(&wbSolarPowerReg1, &wbSolarPowerReg2, &wbSolarPower);
+      mbCalcInt32(wbAllPowerReg, &wbAllPower);
+      mbCalcInt32(wbSolarPowerReg, &wbSolarPower);
       mbCalcInt16(&wbCtrlReg, &wbCtrl);
     #endif
     Serial.printf("Power Solar      : %6d W\n",solarPower);
@@ -286,7 +262,7 @@ void pvMbRead(){
     #ifdef DEBUG
       Serial.printf("Reboot Counter   : %5d\n",readRebootCounter());
     #endif
-    mbCalcInt32(&solarPowerReg1, &solarPowerReg2, &solarPower);
+    mbCalcInt32(solarPowerReg, &solarPower);
     mbCalcInt16(&PV_U1_Reg, &pvU1);
     mbCalcInt16(&PV_U2_Reg, &pvU2);
     mbCalcInt16(&PV_I1_Reg, &pvI1);

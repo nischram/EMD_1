@@ -3,6 +3,10 @@
 #include <time.h>
 #include <TimeLib.h>
 
+#define SW_VERSION                  1.04
+#define SW_DATE                    "12.04.2022"
+#define TYPE                       "EMD-1 : "
+
 #include "parameter.h"
 #include "define.h"
 
@@ -141,12 +145,12 @@ void loop() {
           tftPercentRect(92, 111, 22, 66, ILI9341_DARKGREY, ILI9341_WHITE, eigenverbrauch);
           tftPercentRect(126, 111, 22, 66, ILI9341_DARKGREEN, ILI9341_WHITE, autarkie);
           #ifdef EXT_LM_USE
-            overwriteLcdTextWorth(6, 194, 82, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",extPower);
+            overwriteLcdTextWorth(6, 194, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",extPower);
           #endif
           #ifdef EXT_WB_USE
-            overwriteLcdTextWorth(148, 194, 82, 11, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbAllPower);
+            overwriteLcdTextWorth(148, 194, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbAllPower);
             if(wbSolarPower > 30)
-              overwriteLcdTextWorth(148, 208, 82, 11, ILI9341_ORANGE, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbSolarPower);
+              overwriteLcdTextWorth(148, 208, 82, 12, ILI9341_ORANGE, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbSolarPower);
             if      ((wbCtrl & WB_CONNECT) == WB_CONNECT)tft.drawRGBBitmap(168, 145, carConnect,52,28);
             else if ((wbCtrl & WB_LOCKED) == WB_LOCKED)tft.drawRGBBitmap(168, 145, carLocked,52,28);
             else if ((wbCtrl & WB_CHARGE) == WB_CHARGE){
