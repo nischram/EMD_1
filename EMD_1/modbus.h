@@ -77,13 +77,14 @@ void initModbus(const char * ipAdress){
   int timeout = 0;
   mb.master();
   delay(100);
-  while (!mb.isConnected(mbIP_E3DC) && timeout < MODBUS_TIMEOUT * 10) {
+  lastMbMillis = millis();
+  while (!mb.isConnected(mbIP_E3DC) && millis() - lastMbMillis < MODBUS_TIMEOUT*1000) {
+    lastMbMillis = millis();
     mb.connect(mbIP_E3DC);
     Serial.print(".");
     delay(100);
-    timeout++;
   }
-  if (timeout < MODBUS_TIMEOUT * 10){
+  if (millis() - lastMbMillis < MODBUS_TIMEOUT*1000){
     Serial.println("");
     Serial.println("Modbus status    :  connected");
     tftPrintInit("Modbus status  : connected");
@@ -187,19 +188,6 @@ void mbCalcInt16(uint16_t *reg1, int *value){
     *value = *reg1;
     *reg1 = 0;
 }
-void mbCalcInt32(DoubleRegister reg, int *value){
-    int positiv, negativ;
-    if(reg.sr[1] < 32768){
-      positiv = reg.sr[1] * 65536 + reg.sr[0];
-      negativ = 0;
-    } else {
-      negativ = 4294967296 - reg.sr[1] * 65536 - reg.sr[0];
-      positiv = 0;
-    }
-    *value = positiv - negativ;
-    reg.sr[0] = 0;
-    reg.sr[1] = 0;
-}
 void mbCalcAutarkieEigenv(uint16_t *reg, int *Autarkie, int *Eigenverbrauch){
     *Autarkie = *reg / 256;
     *Eigenverbrauch = *reg % 256;
@@ -213,18 +201,18 @@ void mainMbRead(){
       Serial.printf("Reboot Counter   : %5d\n",readRebootCounter());
       Serial.printf("Debug  Counter   : %5d\n",mbDebugCounter);
     #endif
-    mbCalcInt32(solarPowerReg, &solarPower);
-    mbCalcInt32(gridPowerReg, &gridPower);
-    mbCalcInt32(batPowerReg, &batPower);
-    mbCalcInt32(homePowerReg, &homePower);
+    solarPower = solarPowerReg.dr;
+    gridPower = gridPowerReg.dr;
+    batPower = batPowerReg.dr;
+    homePower = homePowerReg.dr;
     mbCalcInt16(&batSocReg, &batSoc);
     mbCalcAutarkieEigenv(&autarkieReg, &autarkie, &eigenverbrauch);
     #ifdef EXT_LM_USE
       mbCalcInt32(extPowerReg, &extPower);
     #endif
     #ifdef EXT_WB_USE
-      mbCalcInt32(wbAllPowerReg, &wbAllPower);
-      mbCalcInt32(wbSolarPowerReg, &wbSolarPower);
+      wbAllPower = wbAllPowerReg.dr;
+      wbSolarPower = wbSolarPowerReg.dr;
       mbCalcInt16(&wbCtrlReg, &wbCtrl);
     #endif
     Serial.printf("Power Solar      : %6d W\n",solarPower);
@@ -262,7 +250,7 @@ void pvMbRead(){
     #ifdef DEBUG
       Serial.printf("Reboot Counter   : %5d\n",readRebootCounter());
     #endif
-    mbCalcInt32(solarPowerReg, &solarPower);
+    solarPower = solarPowerReg.dr;
     mbCalcInt16(&PV_U1_Reg, &pvU1);
     mbCalcInt16(&PV_U2_Reg, &pvU2);
     mbCalcInt16(&PV_I1_Reg, &pvI1);
