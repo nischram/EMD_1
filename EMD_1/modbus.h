@@ -70,6 +70,14 @@ bool cbConn(IPAddress ip) {
 }
 
 void initModbus(const char * ipAdress){
+  solarPowerReg.dr = 0;
+  gridPowerReg.dr = 0;
+  batPowerReg.dr = 0;
+  homePowerReg.dr = 0;
+  extPowerReg.dr = 0;
+  wbAllPowerReg.dr = 0;
+  wbSolarPowerReg.dr = 0;
+  
   mbIP_E3DC.fromString(ipAdress);
   Serial.print("Modbus Init      :  wait...");
   if(INTERVALL_MODBUS > INTERVALL_HM) IntervalModbus = INTERVALL_HM;

@@ -3,8 +3,8 @@
 #include <time.h>
 #include <TimeLib.h>
 
-#define SW_VERSION                  1.05
-#define SW_DATE                    "13.04.2022"
+#define SW_VERSION                  1.06
+#define SW_DATE                    "15.04.2022"
 #define TYPE                       "EMD-1 : "
 
 #include "parameter.h"
