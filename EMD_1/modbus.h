@@ -216,7 +216,7 @@ void mainMbRead(){
     mbCalcInt16(&batSocReg, &batSoc);
     mbCalcAutarkieEigenv(&autarkieReg, &autarkie, &eigenverbrauch);
     #ifdef EXT_LM_USE
-      mbCalcInt32(extPowerReg, &extPower);
+      extPower = extPowerReg.dr;
     #endif
     #ifdef EXT_WB_USE
       wbAllPower = wbAllPowerReg.dr;

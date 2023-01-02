@@ -3,8 +3,8 @@
 #include <time.h>
 #include <TimeLib.h>
 
-#define SW_VERSION                  1.06
-#define SW_DATE                    "15.04.2022"
+#define SW_VERSION                  1.07
+#define SW_DATE                    "02.01.2023"
 #define TYPE                       "EMD-1 : "
 
 #include "parameter.h"
@@ -410,7 +410,7 @@ void loop() {
               tft.fillRect(touchXmin[Small_R3_S2], touchYmin[Small_R3_S2], 168, 40, ILI9341_WHITE);
               printLcdText(touchXmin[Small_R3_S2]+8, touchYmin[Small_R3_S2]+25, ILI9341_DARKGREY, FontSansSerif_plain_11, "Beispiel:");
               tft.fillRect(touchXmin[Small_R4_S2], touchYmin[Small_R4_S2], 168, 40, ILI9341_WHITE);
-              printLcdText(touchXmin[Small_R4_S2]+8, touchYmin[Small_R4_S2]+25, ILI9341_DARKGREY, FontSansSerif_plain_11, "/update/EMD_1-04.bin");
+              printLcdText(touchXmin[Small_R4_S2]+8, touchYmin[Small_R4_S2]+25, ILI9341_DARKGREY, FontSansSerif_plain_11, "/update/EMD_1-08.bin");
             }
           }
         }
