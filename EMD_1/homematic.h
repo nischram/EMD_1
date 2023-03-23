@@ -30,7 +30,7 @@ int readStateHM(bool sprint, int ise_id, const char *isename) {
           retValue = 0;
       }
       if (sprint){
-        Serial.print("read HM ID      :  ");
+        Serial.print("read HM ID        :  ");
         Serial.print(outID);
         Serial.print(" = ");
         Serial.print(isename);
@@ -41,7 +41,7 @@ int readStateHM(bool sprint, int ise_id, const char *isename) {
     else {
       retValue= -100;
       if (sprint){
-        Serial.print("read HM         :  ");
+        Serial.print("read HM           :  ");
         Serial.print("Wifi is timeout, ");
         Serial.print(isename);
         Serial.print(" return: ");
@@ -67,7 +67,7 @@ int sendHM(bool sprint, int ise_id, const char *isename, const char* format, ...
       if (httpCode > 0) {
         request = http.getString();
         if (sprint){
-          Serial.print("send to HM       :  \"");Serial.print(value);
+          Serial.print("send to HM         :  \"");Serial.print(value);
           Serial.print("\" ISE_Name : \"");Serial.print(isename);Serial.println("\"");
         }
       }
@@ -82,7 +82,7 @@ int sendHM(bool sprint, int ise_id, const char *isename, const char* format, ...
     }
     else {
       if (sprint){
-        Serial.print("send to HM       :  ");
+        Serial.print("send to HM         :  ");
         Serial.print("Wifi is timeout, ");
         Serial.println(isename);
       }

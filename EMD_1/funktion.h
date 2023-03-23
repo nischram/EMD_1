@@ -51,7 +51,7 @@ void drawScreenMain(){
     if(!drawScreen){
       delayTime = 20;
       drawMainScreen();
-      Serial.println("Display Menü     :  Main");
+      Serial.println("Display Menü       :  Main");
       drawBitmapRGB(Main_R1_S1, menuLeistung,80,80);
       drawBitmapRGB(Main_R1_S2, menuPV,80,80);
       drawBitmapRGB(Main_R2_S1, menuWetter,80,80);
@@ -67,7 +67,7 @@ void drawScreenSecond(){
     if(!drawScreen){
       delayTime = 20;
       drawMainScreen();
-      Serial.println("Display Menü     :  Second");
+      Serial.println("Display Menü       :  Second");
       drawBitmapRGB(Main_R1_S1, menuFree,80,80);
       drawBitmapRGB(Main_R1_S2, menuFree,80,80);
       drawBitmapRGB(Main_R2_S1, menuFree,80,80);
@@ -81,7 +81,7 @@ void drawScreenSecond(){
 }
 void drawScreenAktuel(){
     if(!drawScreen){
-      Serial.println("Display Screen   :  Aktuell");
+      Serial.println("Display Screen     :  Aktuell");
       tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
       tft.fillRect(6, 6, 228, 308, ILI9341_WHITE);
       drawBitmapRGB(Pos_Sym_PV, Sym_PV,60,60);
@@ -102,7 +102,7 @@ void drawScreenAktuel(){
 void drawScreenPV(){
     if(!drawScreen){
       drawMainScreen();
-      Serial.println("Display Screen   :  PV");
+      Serial.println("Display Screen     :  PV");
       tft.fillRect(6, 20, 228, 294, ILI9341_WHITE);
       drawBitmapRGB(Pos_PV_Mitte, Sym_PV,60,60);
       drawBitmapRGB(Pos_Modul_1, PV_Modul,60,52);
@@ -115,7 +115,7 @@ void drawScreenPV(){
 }
 void drawScreenWetter(){
     if(!drawScreen){
-      Serial.println("Display Screen   :  Wetter");
+      Serial.println("Display Screen     :  Wetter");
       tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
       tft.fillRect(6, 6, 228, 308, ILI9341_WHITE);
       drawBitmapRGB(Pos_Sym_Back, Sym_Back,32,21);
@@ -128,7 +128,7 @@ void drawScreenWetter(){
 void drawScreenEinst(){
     if(!drawScreen){
       drawMainScreen();
-      Serial.println("Display Menü     :  Einstellungen");
+      Serial.println("Display Menü       :  Einstellungen");
       tft.drawRect(touchXmin[Small_R1_S1]-1, touchYmin[Small_R1_S1]-1, 42, 42, ILI9341_GREEN);
       tft.drawRect(touchXmin[Small_R1_S2]-1, touchYmin[Small_R1_S2]-1, 170, 42, ILI9341_GREEN);
       tft.fillRect(touchXmin[Small_R1_S2], touchYmin[Small_R1_S2], 168, 40, ILI9341_WHITE);
@@ -151,7 +151,7 @@ void drawScreenEinst(){
 void drawScreenRefresh(){
     if(!drawScreen){
       drawMainScreen();
-      Serial.println("Display Menü     :  Refresh");
+      Serial.println("Display Menü       :  Refresh");
       tft.drawRect(touchXmin[Small_R1_S1]-1, touchYmin[Small_R1_S1]-1, 42, 42, ILI9341_GREEN);
       tft.drawRect(touchXmin[Small_R1_S2]-1, touchYmin[Small_R1_S2]-1, 170, 42, ILI9341_GREEN);
       tft.fillRect(touchXmin[Small_R1_S2], touchYmin[Small_R1_S2], 168, 40, ILI9341_WHITE);
@@ -170,7 +170,7 @@ void drawScreenRefresh(){
 void drawScreenUpdate(){
     if(!drawScreen){
       drawMainScreen();
-      Serial.println("Display Menü     :  Update");
+      Serial.println("Display Menü       :  Update");
       tft.drawRect(touchXmin[Small_R1_S1]-1, touchYmin[Small_R1_S1]-1, 42, 42, ILI9341_GREEN);
       tft.drawRect(touchXmin[Small_R1_S2]-1, touchYmin[Small_R1_S2]-1, 170, 42, ILI9341_GREEN);
       tft.fillRect(touchXmin[Small_R1_S2], touchYmin[Small_R1_S2], 168, 40, ILI9341_WHITE);
@@ -186,7 +186,7 @@ void drawScreenSave(){
     if(!drawScreen){
       backlightOFF();
       drawMainScreen();
-      Serial.println("Display Menü     :  Screensaver");
+      Serial.println("Display Menü       :  Screensaver");
       tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
       tft.fillRect(6, 6, 228, 308, ILI9341_LIGHTGREY);
       tft.fillRect(12, 12, 216, 296, ILI9341_WHITE);
@@ -201,7 +201,7 @@ void drawScreenSave(){
     }
 }
 void drawScreenOTA(){
-      Serial.println("Display Screen   :  OTA");
+      Serial.println("Display Screen     :  OTA");
       tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
       tft.fillRect(6, 6, 228, 308, ILI9341_LIGHTGREY);
       tft.fillRect(12, 12, 216, 296, ILI9341_WHITE);
@@ -222,7 +222,7 @@ void checkStartScreen(){
       screenSaveActiv = OFF;
       drawScreen = NEW;
       backlightON();
-      Serial.println("Screen Save      :  Deaktiv");
+      Serial.println("Screen Save        :  Deaktiv");
     }
 }
 #endif // __FUNKTION_H_

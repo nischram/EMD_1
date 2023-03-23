@@ -20,11 +20,11 @@ void serialBegin(){
   Serial.println("");
   Serial.println("______________________________ ");
   Serial.println("");
-  Serial.print("Serial Speed is  :  ");Serial.println(SERIALSPEED);
+  Serial.print("Serial Speed is    :  ");Serial.println(SERIALSPEED);
 }
 void serialPrintSW(){
-  Serial.print("Software Version : ");Serial.printf(" V%4.2f\n",SW_VERSION);
-  Serial.print("Software Datum   : ");Serial.printf(" %s\n",SW_DATE);
+  Serial.print("Software Version   : ");Serial.printf(" V%4.2f\n",SW_VERSION);
+  Serial.print("Software Datum     : ");Serial.printf(" %s\n",SW_DATE);
 }
 //------------------------------
 // WiFi network
@@ -32,7 +32,7 @@ void startWifi(){
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
-  Serial.print("WiFi init        :  wait...");
+  Serial.print("WiFi init          :  wait...");
   int timeout = 0;
   while (WiFi.status() != WL_CONNECTED && timeout < WIFI_TIMEOUT * 2) {
     Serial.print(".");
@@ -41,17 +41,17 @@ void startWifi(){
   }
   if (timeout < WIFI_TIMEOUT * 2){
     Serial.println("");
-    Serial.printf("WiFi SSID        :  %s\n",ssid);
-    Serial.println("WiFi status      :  connected");
-    Serial.print("ESP-IP address   :  ");
+    Serial.printf("WiFi SSID          :  %s\n",ssid);
+    Serial.println("WiFi status        :  connected");
+    Serial.print("ESP-IP address     :  ");
     Serial.println(WiFi.localIP());
-    Serial.print("WiFi strength    :  ");Serial.printf("%6d dBm\n",WiFi.RSSI());
+    Serial.print("WiFi strength      :  ");Serial.printf("%6d dBm\n",WiFi.RSSI());
     wifiTimeout = false;
   }
   else {
     Serial.println("");
-    Serial.printf("WiFi SSID        :  %s\n",ssid);
-    Serial.println("WiFi status      :  failed!");
+    Serial.printf("WiFi SSID          :  %s\n",ssid);
+    Serial.println("WiFi status        :  failed!");
     wifiTimeout = true;
   }
   if (!wifiTimeout){
@@ -95,7 +95,7 @@ File logFile;
 //const int SD_CS = 32;
 
 void initSD_Card(){
-  Serial.print("SD-Card init     :  ");
+  Serial.print("SD-Card init       :  ");
   SD.begin(SD_CS);
   if (SD.exists("/")) {
     Serial.println("connected");
@@ -110,18 +110,18 @@ void initSD_Card(){
 }
 bool checkFolder(char const * folder){
   if (SD.exists(folder)) {
-    Serial.print("SD-Card folder   :  \"");Serial.print(folder);Serial.println("\" is OK");
+    Serial.print("SD-Card folder     :  \"");Serial.print(folder);Serial.println("\" is OK");
     return true;
   }
   else {
-    Serial.print("SD-Card          :  add folder \"");Serial.print(folder);Serial.print("\" ... ");
+    Serial.print("SD-Card            :  add folder \"");Serial.print(folder);Serial.print("\" ... ");
     SD.mkdir(folder);
     if (SD.exists(folder)) {
       Serial.println(" is added");
       return true;
     }
     else {
-      Serial.println("SD-Card          :  error make folder ");
+      Serial.println("SD-Card            :  error make folder ");
       return false;
     }
   }
@@ -134,7 +134,7 @@ void rebootCounter(){
   rebootCount = paraESP.getUInt("BOOT");
   if (rebootCount >= 65634) rebootCount = 0;
   rebootCount++;
-  Serial.print("Reboot counter   :  ");Serial.println(rebootCount);
+  Serial.print("Reboot counter     :  ");Serial.println(rebootCount);
   tftPrintInit("Reboot counter : %i", rebootCount);
   paraESP.putUInt("BOOT", rebootCount);
 }
@@ -182,14 +182,14 @@ void initPIR(){
     pirUse = readPIRuse();
     if(pirUse == 1){
       pinMode(PIR_PIN, INPUT);
-      Serial.println("PIR Init         :  done");
-      Serial.printf("PIR State        :  %i\n", digitalRead(PIR_PIN));
+      Serial.println("PIR Init           :  done");
+      Serial.printf("PIR State          :  %i\n", digitalRead(PIR_PIN));
     }
-    else Serial.println("PIR Init         :  not use!");
+    else Serial.println("PIR Init           :  not use!");
 }
 void readPIR(){
     if(pirUse == 1){
-      Serial.printf("PIR State        :  %i\n", digitalRead(PIR_PIN));
+      Serial.printf("PIR State          :  %i\n", digitalRead(PIR_PIN));
     }
 }
 // DHT on screen

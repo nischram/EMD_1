@@ -130,12 +130,12 @@ void drawBitmapRGB(int t, const uint16_t bitmap[], int16_t w, int16_t h) {
 void initTouch(){
   pinMode(TFT_LED, OUTPUT); // define as output for backlight control
   backlightOFF();
-  Serial.print("Init TFT         :  ");
+  Serial.print("Init TFT           :  ");
   tft.begin();
   tft.setRotation(readRotation());   // landscape mode
   Serial.print("TFT-X ="); Serial.print(tft.width());
   Serial.print(" TFT-Y ="); Serial.println(tft.height());
-  Serial.print("Init Tuoch       :  ");
+  Serial.print("Init Tuoch         :  ");
   touch.begin();
   touch.setRotation(readRotation());
   tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
@@ -189,7 +189,7 @@ bool checkTouch(){
   if (Touch_Event()== true) {
     X = p.x + TOUCH_OFFSET_X; Y = p.y + TOUCH_OFFSET_Y;
     Touch_pressed = true;
-    Serial.print("Y ");Serial.print(Y);Serial.print(" X ");Serial.println(X); //Kontrolle Touch
+    //Serial.print("Y ");Serial.print(Y);Serial.print(" X ");Serial.println(X); //Kontrolle Touch
   }
   else {
     Touch_pressed = false;

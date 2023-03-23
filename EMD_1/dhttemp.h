@@ -18,10 +18,10 @@
   void serialPrintDHT(){
       readDHT();
       
-      Serial.print("Temperatur       :  ");
+      Serial.print("Temperatur         :  ");
       Serial.print(temp);
       Serial.println(" °C");
-      Serial.print("Luftfeuchtigkeit :  ");
+      Serial.print("Luftfeuchtigkeit   :  ");
       Serial.print(hum);
       Serial.println(" %");
   }

@@ -32,8 +32,8 @@ void makeClock(time_t tm, char *url, char *datum, char *zeit, char *tHM){
 }
 void serialPrintClock(){
     makeClock(time(nullptr) + timeDiff, timeStamp, datum, zeit,zeitHoMi);
-    Serial.print("Datum            :  ");Serial.println(datum);
-    Serial.print("Uhrzeit          :  ");Serial.println(zeit);
+    Serial.print("Datum              :  ");Serial.println(datum);
+    Serial.print("Uhrzeit            :  ");Serial.println(zeit);
 }
 void tftPrintClock(){
     makeClock(time(nullptr) + timeDiff, timeStamp, datum, zeit,zeitHoMi);
@@ -42,7 +42,7 @@ void tftPrintClock(){
 }
 void initNTP(){
   configTime(TIMEZONE * 3600, DST * 0, NTP_SERVER_1, NTP_SERVER_2);
-  Serial.println("Time init        :  wait...");
+  Serial.println("Time init          :  wait...");
   while (!time(nullptr)) {
     Serial.print(".");
     delay(500);

@@ -3,8 +3,8 @@
 #include <time.h>
 #include <TimeLib.h>
 
-#define SW_VERSION                  1.07
-#define SW_DATE                    "02.01.2023"
+#define SW_VERSION                  1.08
+#define SW_DATE                    "23.03.2023"
 #define TYPE                       "EMD-1 : "
 
 #include "parameter.h"
@@ -66,7 +66,7 @@ void setup() {
   firstReadMagicByte(mbIP_E3DC);
   if(wifiTimeout == true || modbusTimeout == true)screenActive = SCREEN_REFRESH;
   readPIR();
-  Serial.printf("Screen Save Time :  %i\n", readScreenSave());
+  Serial.printf("Screen Save Time   :  %i\n", readScreenSave());
   lastScreenMillis = millis();
   delay(4000);
   firstBoot = false;
@@ -145,19 +145,21 @@ void loop() {
           tftPercentRect(92, 111, 22, 66, ILI9341_DARKGREY, ILI9341_WHITE, eigenverbrauch);
           tftPercentRect(126, 111, 22, 66, ILI9341_DARKGREEN, ILI9341_WHITE, autarkie);
           #ifdef EXT_LM_USE
-            overwriteLcdTextWorth(6, 194, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",extPower);
+            overwriteLcdTextWorth(6, 194, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",extPower * -1);
           #endif
           #ifdef EXT_WB_USE
             overwriteLcdTextWorth(148, 194, 82, 12, ILI9341_DARKGREY, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbAllPower);
             if(wbSolarPower > 30)
               overwriteLcdTextWorth(148, 208, 82, 12, ILI9341_ORANGE, ILI9341_WHITE, FontMonospaced_bold_16,"W","%6d",wbSolarPower);
-            if      ((wbCtrl & WB_CONNECT) == WB_CONNECT)tft.drawRGBBitmap(168, 145, carConnect,52,28);
-            else if ((wbCtrl & WB_LOCKED) == WB_LOCKED)tft.drawRGBBitmap(168, 145, carLocked,52,28);
-            else if ((wbCtrl & WB_CHARGE) == WB_CHARGE){
+            else
+              tft.fillRect(148, 195, 82, 16, ILI9341_WHITE);
+            if ((wbCtrl & WB_CHARGE) == WB_CHARGE){
               if      (wbAllPower <= 200 && wbSolarPower >=200)tft.drawRGBBitmap(168, 145, carSun,52,28);
               else if (wbAllPower >= 200 && wbSolarPower <=200)tft.drawRGBBitmap(168, 145, carGridRed,52,28);
               else tft.drawRGBBitmap(168, 145, carMix,52,28);
             }
+            else if ((wbCtrl & WB_LOCKED) == WB_LOCKED)tft.drawRGBBitmap(168, 145, carLocked,52,28);
+            else if ((wbCtrl & WB_CONNECT) == WB_CONNECT)tft.drawRGBBitmap(168, 145, carConnect,52,28);
             else{
               tft.drawRGBBitmap(168, 145, car,52,28);
             }
@@ -486,7 +488,7 @@ void loop() {
       screenSaveActiv = ON;
       screenActive = SCREEN_SAVE;
       drawScreen = NEW;
-      Serial.println("Screen Save      :  Aktiv");
+      Serial.println("Screen Save        :  Aktiv");
     }
   }
 

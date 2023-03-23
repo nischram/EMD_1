@@ -1,5 +1,5 @@
 # E3DC-Modbus-Display-1
-[Stand: V1.07 02.01.2023](https://github.com/nischram/EMD_1#changelog)
+[Stand: V1.08 23.03.2023](https://github.com/nischram/EMD_1#changelog)
 
 Hier beschreibe ich, wie du die Daten eines S10 Hauskraftwerk von E3DC auf einem Display anzeigen kannst.
 
@@ -178,6 +178,13 @@ Wenn alles Vorbereitet ist in der Arduino-IDE die richtige Einstellung für den 
 <img width="200" src="https://user-images.githubusercontent.com/19279623/121818853-17190180-cc8a-11eb-8655-683f7e6377cc.png" alt="OTA-Update">  
 
 ### Versionen
+V1.08 23.03.2023 [Issue #6](https://github.com/nischram/EMD_1/issues/6), [Issue #7](https://github.com/nischram/EMD_1/issues/7) + Diverse kleine Anpassungen
+- Issue #6 bei fehlender Verbindung endlosschleife   
+- Issue #7 Abbruch der Anzeige wenn OpenWeather einen Fehler zurückgibt
+- Anpssung in der Wallboxdarstellung Verriegelung etc. wurde falsch angezeigt   
+- Wallbox Solarstrom es wurde der letzte Wert nicht ausgeblendet    
+- Darstellung der Ausgaben angepasst    
+
 V1.07 02.01.2023 Fehler bei Verwendung "#define EXT_LM_USE" behoben  
 - Fehler in modbus.h bei Verwendung "#define EXT_LM_USE" behoben   
 
