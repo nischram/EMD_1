@@ -325,13 +325,14 @@ void drawWeatherSingleIcon() {
         weatherMillis = millis();
         if(strcmp(WEATHER_KEY, "12345678910111213141516171819202")==1){
           // Set Ecludes
-          myEXCLUDES = EXCL_H+EXCL_M+EXCL_D+EXCL_A;
+          myEXCLUDES = EXCL_H+EXCL_M;
 
           // Start Weather Call
           startWeatherCall();
 
           if (OWOC.current)
           {
+            Serial.printf("Current icon       :  %s\n", OWOC.current->icon);
             drawWeatherIcon(OWOC.current->icon,80,10);
             makeClock(OWOC.current->dayTime+OWOC.location.timezoneOffset, timeStamp, datum, zeit, zeitHoMi);
             overwriteLcdText(104, 18, 50, 8, ILI9341_LIGHTGREY, ILI9341_WHITE, FontMonospaced_bold_10,"%s", zeitHoMi);

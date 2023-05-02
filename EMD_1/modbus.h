@@ -237,17 +237,17 @@ void mainMbRead(){
       Serial.printf("Power WB-Solar     :  %6d W\n",wbSolarPower);
       Serial.printf("WB-CTRL            :  0x%X\n",wbCtrl  );
       if ((wbCtrl & WB_MODE) == WB_MODE) Serial.printf("WB-Mode            :   Solar | ");
-      else Serial.printf("WB-Mode            :   Mix | ");
+      else Serial.printf("WB-Mode            :  Mix | ");
       if ((wbCtrl & WB_ERR) == WB_ERR) Serial.printf("Laden abgebrochen\n");
       else Serial.printf("Laden freigegeben\n");
-      if ((wbCtrl & WB_CONNECT) == WB_CONNECT) Serial.printf("WB > Auto          :   gesteckt | ");
-      else Serial.printf("WB > Auto          :   nicht gesteckt |");
+      if ((wbCtrl & WB_CONNECT) == WB_CONNECT) Serial.printf("WB > Auto          :  gesteckt | ");
+      else Serial.printf("WB > Auto          :  nicht gesteckt | ");
       if ((wbCtrl & WB_LOCKED) == WB_LOCKED) Serial.printf("verriegelt | ");
       else Serial.printf("nicht verriegelt | ");
       if ((wbCtrl & WB_CHARGE) == WB_CHARGE) Serial.printf("lädt\n");
       else Serial.printf("lädt nicht\n");
-      if ((wbCtrl & WB_PHASES) == WB_PHASES) Serial.printf("WB-Phasen          :   1 von 3\n");
-      else Serial.printf("WB-Phasen          :   3 von 3\n");
+      if ((wbCtrl & WB_PHASES) == WB_PHASES) Serial.printf("WB-Phasen          :  1 von 3\n");
+      else Serial.printf("WB-Phasen          :  3 von 3\n");
     #endif
 }
 void pvMbRead(){
