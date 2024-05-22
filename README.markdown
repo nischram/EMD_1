@@ -1,5 +1,5 @@
 # E3DC-Modbus-Display-1
-[Stand: V1.09 01.05.2023](https://github.com/nischram/EMD_1#changelog)
+[Stand: V1.10 22.05.2024](https://github.com/nischram/EMD_1#changelog)
 
 Hier beschreibe ich, wie du die Daten eines S10 Hauskraftwerk von E3DC auf einem Display anzeigen kannst.
 
@@ -19,7 +19,7 @@ __Update fia OTA__
 
 Diese Kombination bietet eine sehr gute Möglichkeit, um das S10 einfach und schnell mit einem eigenem Display zu überwachen.
 
-Ich nutze diese Applikation auf einem ESP32, mit dem 2,8“ Touchdisplay. Auf das Material und die Installation gehe ich in dieser Anleitung ein.
+Ich nutze diese Applikation auf einem ESP32, mit dem 2,8“ Touchdisplay. Auf das Material und die Installation gehe ich in dieser Anleitung ein. Die Applikation und Anleitung ist für _ArduinoIDE_ erstellt.
 
 ## Display
 
@@ -178,7 +178,11 @@ Wenn alles Vorbereitet ist in der Arduino-IDE die richtige Einstellung für den 
 <img width="200" src="https://user-images.githubusercontent.com/19279623/121818853-17190180-cc8a-11eb-8655-683f7e6377cc.png" alt="OTA-Update">  
 
 ### Versionen
-V1.09 01.05.2022 [Issue #7](https://github.com/nischram/EMD_1/issues/7) Absturz durch unterschiedliche excludes in der Wetterdarstellung
+V1.10 22.05.2024 [Issue #8](https://github.com/nischram/EMD_1/issues/8) + [Issue #9](https://github.com/nischram/EMD_1/issues/9) + Probleme nach Bildschirmschoner
+- Hinweis auf ArduinoIDE weil PlattformIO nicht unterstützt wird
+- Nach Bildschirmschoner kam zum Teil W-LAN oder Modbus nicht wieder
+
+V1.09 01.05.2023 [Issue #7](https://github.com/nischram/EMD_1/issues/7) Absturz durch unterschiedliche excludes in der Wetterdarstellung
 - Issue #7 excludes in der weatherGui für "Aktuell" und "Wetter" gleich gesetzt   
 - Darstellung der Ausgaben angepasst    
 

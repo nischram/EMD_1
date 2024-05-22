@@ -127,6 +127,19 @@ void tftPrintInit(const char *format, ...){
 void drawBitmapRGB(int t, const uint16_t bitmap[], int16_t w, int16_t h) {
       tft.drawRGBBitmap(touchXmin[t],touchYmin[t], bitmap,w,h);
 }
+void debugTft(){
+  // read diagnostics (optional but can help debug problems)
+  uint8_t x = tft.readcommand8(ILI9341_RDMODE);
+  Serial.print("TFT Debug          :  Power Mode 0x");Serial.println(x, HEX);
+  x = tft.readcommand8(ILI9341_RDMADCTL);
+  Serial.print("TFT Debug          :  MADCTL Mode 0x");Serial.println(x, HEX);
+  x = tft.readcommand8(ILI9341_RDPIXFMT);
+  Serial.print("TFT Debug          :  Pixel Format 0x");Serial.println(x, HEX);
+  x = tft.readcommand8(ILI9341_RDIMGFMT);
+  Serial.print("TFT Debug          :  Image Format 0x");Serial.println(x, HEX);
+  x = tft.readcommand8(ILI9341_RDSELFDIAG);
+  Serial.print("TFT Debug          :  Self Diagnostic 0x");Serial.println(x, HEX);
+}
 void initTouch(){
   pinMode(TFT_LED, OUTPUT); // define as output for backlight control
   backlightOFF();
@@ -147,10 +160,16 @@ void initTouch(){
   backlightON();
   delay(200);
   Serial.println("done");
+  //debugTft();
   tftPrintInit("Software       : EMD-%.2f", SW_VERSION);
   tftPrintInit("Software Date  : %s", SW_DATE);
   tftPrintInit("Serial Speed   : %i", SERIALSPEED);
-
+}
+void reInitTouch(){
+  tft.begin();
+  tft.setRotation(readRotation());   // landscape mode
+  touch.begin();
+  touch.setRotation(readRotation());
 }
 void printLcdText(int x, int y, uint16_t c, int font, const char *format, ...) {
   va_list argptr;

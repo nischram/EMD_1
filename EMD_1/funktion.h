@@ -41,7 +41,7 @@ void drawMainScreen(){
     tft.fillRect(0, 0, 240, 320, ILI9341_DARKGREY);
     printLcdText(6, 14, ILI9341_LIGHTGREY, FontMonospaced_bold_13,"EMD-%.2f ", SW_VERSION);
     tft.fillRect(6, 20, 228, 294, ILI9341_LIGHTGREY);
-
+    yield();
     //check SD, WWW, MB and make symbol
     sdSymbol(POS_SD, 2, "/update");
     wwwSymbol(POS_MB, 2);
@@ -218,6 +218,11 @@ void tftPercentRect(int x, int y, int w, int h, int c, int bg, int value){
 void checkStartScreen(){
     lastScreenMillis = millis();
     if(screenSaveActiv){
+      reInitTouch();
+      //debugTft();
+      if (WiFi.status() != WL_CONNECTED) startWifi();
+      if (!mb.isConnected(mbIP_E3DC) || !modbusReady) initModbus(IP_E3DC);
+      yield();
       screenActive = SCREEN_AKTUEL;
       screenSaveActiv = OFF;
       drawScreen = NEW;
